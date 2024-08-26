@@ -25,9 +25,6 @@ end
 distanceAPs = 20;
 distanceSTAs = 5;
 
-% select an OBSS PD Threshold for 802.11ax devices
-obssPDThreshold = -72;
-
 
 %% initialize project settings
 
@@ -54,7 +51,7 @@ networkSimulator = wirelessNetworkSimulator.init();
 
 apNode80211 = createApNodeWithEqualChannel(networkSimulator, 1, 1, positionCenter, apStandard, channelBandwidth);
 apNodes(1) = apNode80211;
-staNodes = addSTAsToAP(networkSimulator, staPoints, apNode80211);
+staNodes = addSTAsToAP(networkSimulator, staPoints, apNode80211, true);
 
 % create a list of all nodes
 nodes = [apNode80211 staNodes];
@@ -81,7 +78,7 @@ if numberOfAPs > 1
         currentAP = createApNodeWithEqualChannel(networkSimulator, bssColor, i, currentPosition, wifiStandard, channelBandwidth);
 
         % add STA nodes to the current position in each direction with the given distance
-        staNodes = addSTAsToAP(networkSimulator, staPoints, currentAP);
+        staNodes = addSTAsToAP(networkSimulator, staPoints, currentAP, true);
 
         % load the AP to the list of APs
         apNodes(1,i) = currentAP;

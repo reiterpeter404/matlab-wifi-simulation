@@ -1,9 +1,10 @@
 % Creates several STA nodes next to the given AP node with a given list of positions.
 
 function [staNodes] = addSTAsToAP( ...
-    networkSimulator, ... % the network simulator of the project
-    staPositions, ...     % all positions of the STAs using x,y and z
-    apNode ...            % the AP node, to connect the STAs
+    networkSimulator, ...   % the network simulator of the project
+    staPositions, ...       % all positions of the STAs using x,y and z
+    apNode, ...             % the AP node, to connect the STAs
+    addNetworkTraffic       % add traffic from the AP to the STA
 )
 
 import wlanWaveformGenerator.*
@@ -34,7 +35,9 @@ for i=1 : numRows
     associateStations(apNode, staNode, FullBufferTraffic="off");
 
     % add traffic from AP to STA
-    apTraffic = networkTrafficOnOff(DataRate=dataRate, PacketSize=packetSize, GeneratePacket=true);
-    addTrafficSource(apNode, apTraffic, DestinationNode=staNode);
+    if addNetworkTraffic
+        apTraffic = networkTrafficOnOff(DataRate=dataRate, PacketSize=packetSize, GeneratePacket=true);
+        addTrafficSource(apNode, apTraffic, DestinationNode=staNode);
+    end
 end
 end
