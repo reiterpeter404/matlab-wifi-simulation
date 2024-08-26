@@ -52,7 +52,7 @@ end
 % add the wireless network simulator (make sure that this variable has to be handed over to the functions that create new APs and STAs)
 networkSimulator = wirelessNetworkSimulator.init();
 
-apNode80211 = createApNodeWithEqualChannel(networkSimulator, 1, obssPDThreshold, 1, positionCenter, apStandard, channelBandwidth);
+apNode80211 = createApNodeWithEqualChannel(networkSimulator, 1, 1, positionCenter, apStandard, channelBandwidth);
 apNodes(1) = apNode80211;
 staNodes = addSTAsToAP(networkSimulator, staPoints, apNode80211);
 
@@ -70,7 +70,7 @@ if numberOfAPs > 1
         if useDifferentBssColor
             bssColor = i;
         else
-            bssColor = 0;
+            bssColor = 1;
         end
 
         % select a different standard number each iteration
@@ -78,7 +78,7 @@ if numberOfAPs > 1
 
         % add a new AP to the measurements with the selected 802.11 standard
         % do nothing, if the AP for the measurements is selected
-        currentAP = createApNodeWithEqualChannel(networkSimulator, bssColor, obssPDThreshold, i, currentPosition, wifiStandard, channelBandwidth);
+        currentAP = createApNodeWithEqualChannel(networkSimulator, bssColor, i, currentPosition, wifiStandard, channelBandwidth);
 
         % add STA nodes to the current position in each direction with the given distance
         staNodes = addSTAsToAP(networkSimulator, staPoints, currentAP);

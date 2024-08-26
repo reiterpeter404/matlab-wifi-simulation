@@ -3,7 +3,7 @@
 function [apNode] = createApNodeWithDifferentChannel( ...
     networkSimulator, ... % the network simulator of the project
     colorIndex, ...       % the color index of the AP (if 802.11ax)
-    obssThreshold, ...    % the OBSS threshold of the AP
+ //     obssThreshold, ...    % the OBSS threshold of the AP
     apIndex, ...          % the index of the AP
     position, ...         % the position of the AP
     wifiStandard, ...     % the selected 802.11 standard (n/ac/ax)
@@ -83,7 +83,7 @@ switch (wifiStandard)
         deviceConfig.TransmissionFormat = 'HE-SU';
         deviceConfig.MCS=4;
         deviceConfig.BSSColor = colorIndex;
-        deviceConfig.OBSSPDThreshold = obssThreshold;
+//         deviceConfig.OBSSPDThreshold = obssThreshold;
 
     % throw exception, if an incorrect number is selected for the 802.11 standard
     otherwise
