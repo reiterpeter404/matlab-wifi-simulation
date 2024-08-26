@@ -5,7 +5,8 @@ function [statThroughput, staPacketLoss, nodeStatistics] = runSimulation( ...
     apStandard, ...             % standard of the measurement AP
     t_simulation, ...           % simulation time
     channelBandwidth, ...       % the bandwidth of the channel
-    useDifferentBssColor ...    % use different BSS colors for the 802.11ax APs
+    useDifferentBssColor, ...   % use different BSS colors for the 802.11ax APs
+    channelMode ...             % selected mode for the measurement 
 )
 
 % check the input parameters
@@ -49,12 +50,21 @@ end
 % add the wireless network simulator (make sure that this variable has to be handed over to the functions that create new APs and STAs)
 networkSimulator = wirelessNetworkSimulator.init();
 
-apNode80211 = createApNodeWithEqualChannel(networkSimulator, 1, 1, positionCenter, apStandard, channelBandwidth);
-apNodes(1) = apNode80211;
-staNodes = addSTAsToAP(networkSimulator, staPoints, apNode80211, true);
+if channelMode == ChannelMode.EqualChannel
+    dutNode = createApNodeWithEqualChannel(networkSimulator, 1, 1, positionCenter, apStandard, channelBandwidth);
+elseif channelMode == ChannelMode.OverlappingChannel
+    dutNode = createApNodeWithOverlappingChannel(networkSimulator, 1, 1, positionCenter, apStandard, channelBandwidth);
+elseif channelMode == ChannelMode.NonOverlappingChannel
+    dutNode = createApNodeWithDifferentChannel(networkSimulator, 1, 1, positionCenter, apStandard, channelBandwidth);
+else
+    throw(MException("Selected ChannelMode is not supported: ", channelMode));
+end
+
+apNodes(1) = dutNode;
+staNodes = addSTAsToAP(networkSimulator, staPoints, dutNode, true);
 
 % create a list of all nodes
-nodes = [apNode80211 staNodes];
+nodes = [dutNode staNodes];
 %nodesToMeasure = nodes;
 
 %% Add an AP at each iteration and perform the measurements
@@ -75,7 +85,13 @@ if numberOfAPs > 1
 
         % add a new AP to the measurements with the selected 802.11 standard
         % do nothing, if the AP for the measurements is selected
-        currentAP = createApNodeWithEqualChannel(networkSimulator, bssColor, i, currentPosition, wifiStandard, channelBandwidth);
+        if channelMode == ChannelMode.EqualChannel
+            currentAP = createApNodeWithEqualChannel(networkSimulator, bssColor, i, currentPosition, wifiStandard, channelBandwidth);
+        elseif channelMode == ChannelMode.OverlappingChannel
+            currentAP = createApNodeWithOverlappingChannel(networkSimulator, bssColor, i, currentPosition, wifiStandard, channelBandwidth);
+        elseif channelMode == ChannelMode.NonOverlappingChannel
+            currentAP = createApNodeWithDifferentChannel(networkSimulator, bssColor, i, currentPosition, wifiStandard, channelBandwidth);
+        end
 
         % add STA nodes to the current position in each direction with the given distance
         staNodes = addSTAsToAP(networkSimulator, staPoints, currentAP, true);
@@ -100,7 +116,7 @@ perfViewerObj = hPerformanceViewer(nodes, t_simulation);
 run(networkSimulator, t_simulation);
 
 nodeStatistics = statistics(nodes);
-statThroughput = throughput(perfViewerObj, apNode80211.ID);
-staPacketLoss = packetLossRatio(perfViewerObj, apNode80211.ID);
+statThroughput = throughput(perfViewerObj, dutNode.ID);
+staPacketLoss = packetLossRatio(perfViewerObj, dutNode.ID);
 
 end
