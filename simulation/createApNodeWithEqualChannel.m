@@ -2,7 +2,6 @@
 
 function [apNode] = createApNodeWithEqualChannel( ...
     networkSimulator, ... % the network simulator of the project
-    bandAndChannel, ...   % the operating band and channel of the AP
     colorIndex, ...       % the color index of the AP (if 802.11ax)
     obssThreshold, ...    % the OBSS threshold of the AP
     apIndex, ...          % the index of the AP
@@ -13,7 +12,7 @@ function [apNode] = createApNodeWithEqualChannel( ...
 
 deviceConfig = wlanDeviceConfig();
 deviceConfig.Mode = "AP";
-deviceConfig.BandAndChannel = bandAndChannel;
+deviceConfig.BandAndChannel = [5 100];
 deviceConfig.DisableRTS = true;
 deviceConfig.ChannelBandwidth = channelBandwidth;
 
