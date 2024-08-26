@@ -3,7 +3,6 @@
 function [apNode] = createApNodeWithOverlappingChannel( ...
     networkSimulator, ... % the network simulator of the project
     colorIndex, ...       % the color index of the AP (if 802.11ax)
-//     obssThreshold, ...    % the OBSS threshold of the AP
     apIndex, ...          % the index of the AP
     position, ...         % the position of the AP
     wifiStandard, ...     % the selected 802.11 standard (n/ac/ax)
@@ -12,25 +11,25 @@ function [apNode] = createApNodeWithOverlappingChannel( ...
 
 % select the 5 GHz channel depending on the AP index
 switch (mod(apIndex, 10))
-    case 0:
+    case 0
         selectedChannel = [5 116];
-    case 1:
+    case 1
         selectedChannel = [5 120];
-    case 2:
+    case 2
         selectedChannel = [5 112];
-    case 3:
+    case 3
         selectedChannel = [5 124];
-    case 4:
+    case 4
         selectedChannel = [5 108];
-    case 5:
+    case 5
         selectedChannel = [5 128];
-    case 6:
+    case 6
         selectedChannel = [5 104];
-    case 7:
+    case 7
         selectedChannel = [5 132];
-    case 8:
+    case 8
         selectedChannel = [5 100];
-    case 9:
+    case 9
         selectedChannel = [5 136];
 end
 
@@ -55,7 +54,7 @@ switch (wifiStandard)
         deviceConfig.TransmissionFormat = 'HE-SU';
         deviceConfig.MCS=4;
         deviceConfig.BSSColor = colorIndex;
-//         deviceConfig.OBSSPDThreshold = obssThreshold;
+%         deviceConfig.OBSSPDThreshold = obssThreshold;
 
     % throw exception, if an incorrect number is selected for the 802.11 standard
     otherwise

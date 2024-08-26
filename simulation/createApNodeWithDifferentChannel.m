@@ -3,7 +3,6 @@
 function [apNode] = createApNodeWithDifferentChannel( ...
     networkSimulator, ... % the network simulator of the project
     colorIndex, ...       % the color index of the AP (if 802.11ax)
- //     obssThreshold, ...    % the OBSS threshold of the AP
     apIndex, ...          % the index of the AP
     position, ...         % the position of the AP
     wifiStandard, ...     % the selected 802.11 standard (n/ac/ax)
@@ -12,53 +11,53 @@ function [apNode] = createApNodeWithDifferentChannel( ...
 
 % select the 5 GHz channel depending on the AP index
 switch (mod(apIndex, 24))
-    case 0:
+    case 0
         selectedChannel = [5 36];
-    case 1:
+    case 1
         selectedChannel = [5 52];
-    case 2:
+    case 2
         selectedChannel = [5 100];
-    case 3:
+    case 3
         selectedChannel = [5 116];
-    case 4:
+    case 4
         selectedChannel = [5 132];
-    case 5:
+    case 5
         selectedChannel = [5 149];
-    case 6:
+    case 6
         selectedChannel = [5 44];
-    case 7:
+    case 7
         selectedChannel = [5 60];
-    case 8:
+    case 8
         selectedChannel = [5 108];
-    case 9:
+    case 9
         selectedChannel = [5 124];
-    case 10:
+    case 10
         selectedChannel = [5 140];
-    case 11:
+    case 11
         selectedChannel = [5 157];
-    case 12:
+    case 12
         selectedChannel = [5 40];
-    case 13:
+    case 13
         selectedChannel = [5 56];
-    case 14:
+    case 14
         selectedChannel = [5 104];
-    case 15:
+    case 15
         selectedChannel = [5 120];
-    case 16:
+    case 16
         selectedChannel = [5 136];
-    case 17:
+    case 17
         selectedChannel = [5 153];
-    case 18:
+    case 18
         selectedChannel = [5 48];
-    case 19:
+    case 19
         selectedChannel = [5 64];
-    case 20:
+    case 20
         selectedChannel = [5 112];
-    case 21:
+    case 21
         selectedChannel = [5 128];
-    case 22:
+    case 22
         selectedChannel = [5 144];
-    case 23:
+    case 23
         selectedChannel = [5 161];
 end
 
@@ -83,7 +82,7 @@ switch (wifiStandard)
         deviceConfig.TransmissionFormat = 'HE-SU';
         deviceConfig.MCS=4;
         deviceConfig.BSSColor = colorIndex;
-//         deviceConfig.OBSSPDThreshold = obssThreshold;
+%         deviceConfig.OBSSPDThreshold = obssThreshold;
 
     % throw exception, if an incorrect number is selected for the 802.11 standard
     otherwise

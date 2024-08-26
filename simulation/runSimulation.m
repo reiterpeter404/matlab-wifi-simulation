@@ -1,11 +1,11 @@
 % run the simulation with the given number of APs
 
 function [statThroughput, staPacketLoss, nodeStatistics] = runSimulation( ...
-    numberOfAPs, ...      % number of APs for the simulation
-    apStandard, ...       % standard of the measurement AP
-    t_simulation, ...     % simulation time
-    channelBandwidth, ... % the bandwidth of the channel
-    useDifferentBssColor  % use different BSS colors for the 802.11ax APs
+    numberOfAPs, ...            % number of APs for the simulation
+    apStandard, ...             % standard of the measurement AP
+    t_simulation, ...           % simulation time
+    channelBandwidth, ...       % the bandwidth of the channel
+    useDifferentBssColor ...    % use different BSS colors for the 802.11ax APs
 )
 
 % check the input parameters

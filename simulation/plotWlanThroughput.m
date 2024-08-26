@@ -3,10 +3,10 @@
 % 'hCompareWlanThroughput' and changed for the needs of this project.
 
 function plotWlanThroughput( ...
-    throughput802_11n, ...  % a row vector representing the 802.11n throughput measurements
-    throughput802_11ac, ... % a row vector representing the 802.11ac throughput measurements
-    throughput802_11ax, ...  % a row vector representing the 802.11ax throughput measurements
-    throughput802_11axBss ...  % a row vector representing the 802.11ax throughput measurements
+    throughput802_11n, ...      % a row vector representing the 802.11n throughput measurements
+    throughput802_11ac, ...     % a row vector representing the 802.11ac throughput measurements
+    throughput802_11ax, ...     % a row vector representing the 802.11ax throughput measurements
+    throughput802_11axBss ...   % a row vector representing the 802.11ax throughput measurements using different BSS colors
 )
 
 fig = figure;

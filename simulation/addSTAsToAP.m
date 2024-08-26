@@ -4,7 +4,7 @@ function [staNodes] = addSTAsToAP( ...
     networkSimulator, ...   % the network simulator of the project
     staPositions, ...       % all positions of the STAs using x,y and z
     apNode, ...             % the AP node, to connect the STAs
-    addNetworkTraffic       % add traffic from the AP to the STA
+    addNetworkTraffic ...   % add traffic from the AP to the STA
 )
 
 import wlanWaveformGenerator.*
