@@ -5,7 +5,7 @@
 % points are ordered by the x, y and z axis.
 
 function sortedCoords = generateGrid( ...
-  distance ...  % the distance from one point to another
+    distance ...  % the distance from one point to another
 )
 
 % define the range for the cube (min:interval:max) and create the grid

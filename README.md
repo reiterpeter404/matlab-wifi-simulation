@@ -9,9 +9,9 @@ loss of the device is measured.
 
 The measurements are taken with APs of these standards:
 
-* 802.11n
-* 802.11ac
-* 802.11ax
+* 802.11n / WiFi 4
+* 802.11ac / WiFi 5
+* 802.11ax / WiFi 6
 
 After the measurement with an AP of each standard, an additional AP is installed in the same area, and the measurements
 on the DUT is repeated. Adding new APs to the simulation is repeated, until the _positionCount_ is reached. At the end

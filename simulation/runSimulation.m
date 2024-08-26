@@ -1,21 +1,22 @@
 % run the simulation with the given number of APs
 
 function [statThroughput, staPacketLoss, nodeStatistics] = runSimulation( ...
-  numberOfAPs, ...      % number of APs for the simulation
-  apStandard, ...       % standard of the measurement AP
-  t_simulation, ...     % simulation time
-  channelBandwidth ...  % the bandwidth of the channel
+    numberOfAPs, ...      % number of APs for the simulation
+    apStandard, ...       % standard of the measurement AP
+    t_simulation, ...     % simulation time
+    channelBandwidth, ... % the bandwidth of the channel
+    useDifferentBssColor  % use different BSS colors for the 802.11ax APs
 )
 
-% check the input paraemters
+% check the input parameters
 if numberOfAPs < 0
-  return
+    return
 elseif numberOfAPs > 27
-  return
+    return
 elseif apStandard < 4
-  return
+    return
 elseif apStandard > 6
-  return
+    return
 end
 
 %% define global variables
@@ -43,7 +44,7 @@ staPoints = loadStaDistances(distanceSTAs);
 apNodes(numberOfAPs) = wlanNode;
 % set all positions
 for i = 1 : numberOfAPs
-  apNodes(1,i).Position = positions(i,:);
+    apNodes(1,i).Position = positions(i,:);
 end
 
 
@@ -52,7 +53,7 @@ end
 % add the wireless network simulator (make sure that this variable has to be handed over to the functions that create new APs and STAs)
 networkSimulator = wirelessNetworkSimulator.init();
 
-apNode80211 = createApNode(networkSimulator, bandAndChannel, 1, obssPDThreshold, 1, positionCenter, apStandard, channelBandwidth);
+apNode80211 = createApNodeWithEqualChannel(networkSimulator, bandAndChannel, 1, obssPDThreshold, 1, positionCenter, apStandard, channelBandwidth);
 apNodes(1) = apNode80211;
 staNodes = addSTAsToAP(networkSimulator, staPoints, apNode80211);
 
@@ -64,27 +65,32 @@ nodes = [apNode80211 staNodes];
 
 % add more APs to the measurement
 if numberOfAPs > 1
-  % create the results of each measurement
-  for i = 2 : numberOfAPs    
-    currentPosition = positions(i,:);
+    % create the results of each measurement
+    for i = 2 : numberOfAPs
+        currentPosition = positions(i,:);
+        if useDifferentBssColor
+            bssColor = i;
+        else
+            bssColor = 0;
+        end
 
-    % select a different standard number each iteration
-    wifiStandard = selectWifiStandard(i, channelBandwidth);
+        % select a different standard number each iteration
+        wifiStandard = selectWifiStandard(i, channelBandwidth);
 
-    % add a new AP to the measurements with the selected 802.11 standard
-    % do nothing, if the AP for the measurements is selected
-    currentAP = createApNode(networkSimulator, bandAndChannel, i, obssPDThreshold, i, currentPosition, wifiStandard, channelBandwidth);
+        % add a new AP to the measurements with the selected 802.11 standard
+        % do nothing, if the AP for the measurements is selected
+        currentAP = createApNodeWithEqualChannel(networkSimulator, bandAndChannel, bssColor, obssPDThreshold, i, currentPosition, wifiStandard, channelBandwidth);
 
-    % add STA nodes to the current position in each direction with the given distance
-    staNodes = addSTAsToAP(networkSimulator, staPoints, currentAP);
+        % add STA nodes to the current position in each direction with the given distance
+        staNodes = addSTAsToAP(networkSimulator, staPoints, currentAP);
 
-    % load the AP to the list of APs
-    apNodes(1,i) = currentAP;
+        % load the AP to the list of APs
+        apNodes(1,i) = currentAP;
 
-    % setup all nodes
-    %nodesFromIterator = [currentAP staNodes];
-    nodes = [nodes currentAP staNodes];
-  end
+        % setup all nodes
+        %nodesFromIterator = [currentAP staNodes];
+        nodes = [nodes currentAP staNodes];
+    end
 end
 
 % add channel to the model
