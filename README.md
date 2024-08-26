@@ -22,7 +22,7 @@ All functions from this example are marked with the copyright of The MathWorks, 
 
 | Parameter        | type   | Description                                                                                                                                                                                           |
 |------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| positionCount    | number | Maximum number of APs that are installed in the simulation (including the DUT).                                                                                                                       |
+| maxApCount       | number | Maximum number of APs that are installed in the simulation (including the DUT).                                                                                                                       |
 | t_simulation     | number | Duration of the simulation in seconds.                                                                                                                                                                |
 | channelBandwidth | number | Bandwidth of the channel for the measurement in Hz. This value is 20e6, 40e6 and 80e6. Please consider that 802.11n does not support 80e6. If this bandwidth is selected, no 802.11n AP is installed. |
 
